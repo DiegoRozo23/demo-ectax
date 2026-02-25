@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
@@ -17,28 +17,32 @@ import {
 export const RoleContext = createContext<{ role: string; setRole: (v: string) => void }>({ role: "Admin", setRole: () => { } });
 export function useRole() { return useContext(RoleContext); }
 
+function SearchParamsHandler({ setRole }: { setRole: (v: string) => void }) {
+    const searchParams = useSearchParams();
+    useEffect(() => {
+        const queryRole = searchParams.get('role');
+        if (queryRole === 'Admin' || queryRole === 'Vendedor') {
+            setRole(queryRole);
+        }
+    }, [searchParams, setRole]);
+
+    return null;
+}
+
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
     const [role, setRole] = useState("Admin");
-
-    useEffect(() => {
-        const queryRole = searchParams.get('role');
-        if (queryRole === 'Admin' || queryRole === 'Vendedor') {
-            setRole(queryRole);
-        }
-    }, [searchParams]);
 
     const navigation = [
         { name: "Resumen", shortName: "Resumen", href: "/dashboard", icon: LayoutDashboard },
         { name: "Directorio de Clientes", shortName: "Clientes", href: "/dashboard/clientes", icon: Users },
         { name: "Soportes Comerciales", shortName: "Catálogo", href: "/dashboard/catalogo", icon: Files },
         { name: "Gestión Documental", shortName: "Documentos", href: "/dashboard/documentos", icon: FileText },
-        { name: "Integración de Firma", shortName: "Firma", href: "/dashboard/firmas", icon: PenTool },
+        { name: "Firma", shortName: "Firma", href: "/dashboard/firmas", icon: PenTool },
     ];
 
     if (role === "Admin") {
@@ -47,6 +51,9 @@ export default function DashboardLayout({
 
     return (
         <RoleContext.Provider value={{ role, setRole }}>
+            <Suspense fallback={null}>
+                <SearchParamsHandler setRole={setRole} />
+            </Suspense>
             <div className="flex h-screen bg-muted flex-col md:flex-row">
                 {/* Sidebar */}
                 <div className="w-full md:w-64 bg-primary text-primary-foreground flex flex-col md:h-full shadow-lg shrink-0">
