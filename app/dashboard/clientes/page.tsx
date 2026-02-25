@@ -271,7 +271,7 @@ export default function ClientesPage() {
                                 </Link>
                             </div>
 
-                            <div className="border border-border rounded-lg overflow-hidden overflow-x-auto">
+                            <div className="border border-border rounded-lg overflow-x-auto">
                                 <table className="min-w-full divide-y divide-border">
                                     <thead className="bg-muted">
                                         <tr>
@@ -290,22 +290,24 @@ export default function ClientesPage() {
                                             </tr>
                                         ) : clientDocs.filter(doc => doc.id === editingId).map((doc, idx) => (
                                             <tr key={idx} className="hover:bg-muted/50 transition-colors">
-                                                <td className="px-4 py-3 whitespace-nowrap">
-                                                    <div className="flex items-center gap-2">
-                                                        <FileText className="w-4 h-4 text-primary shrink-0" />
-                                                        <div className="flex flex-col">
-                                                            <span className="text-sm font-medium text-foreground truncate max-w-[140px] sm:max-w-[200px]" title={doc.displayName}>{doc.displayName}</span>
+                                                <td className="px-4 py-3">
+                                                    <div className="flex items-start gap-2">
+                                                        <FileText className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                                                        <div className="flex flex-col min-w-0">
+                                                            <span className="text-sm font-medium text-foreground whitespace-normal break-words" title={doc.displayName}>{doc.displayName}</span>
                                                             <span className="text-xs text-muted-foreground sm:hidden mt-0.5">{doc.type} • {doc.date}</span>
                                                             <span className="text-xs text-muted-foreground hidden sm:block md:hidden mt-0.5">{doc.date}</span>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="hidden sm:table-cell px-4 py-3 whitespace-nowrap text-sm text-muted-foreground">{doc.type}</td>
-                                                <td className="hidden md:table-cell px-4 py-3 whitespace-nowrap text-sm text-muted-foreground">{doc.date}</td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-3">
-                                                    <a href={`/documents/${doc.file}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="Ver archivo"><Eye className="w-4 h-4" /></a>
-                                                    <a href={`/documents/${doc.file}`} download={doc.file} className="text-muted-foreground hover:text-accent transition-colors" title="Descargar"><Download className="w-4 h-4" /></a>
-                                                    <button className="text-muted-foreground hover:text-red-500 transition-colors" title="Eliminar"><Trash2 className="w-4 h-4" /></button>
+                                                <td className="hidden sm:table-cell px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{doc.type}</td>
+                                                <td className="hidden md:table-cell px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{doc.date}</td>
+                                                <td className="px-4 py-3 text-right text-sm font-medium">
+                                                    <div className="flex justify-end gap-3">
+                                                        <a href={`/documents/${doc.file}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="Ver archivo"><Eye className="w-4 h-4" /></a>
+                                                        <a href={`/documents/${doc.file}`} download={doc.file} className="text-muted-foreground hover:text-accent transition-colors" title="Descargar"><Download className="w-4 h-4" /></a>
+                                                        <button className="text-muted-foreground hover:text-red-500 transition-colors" title="Eliminar"><Trash2 className="w-4 h-4" /></button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -328,13 +330,13 @@ export default function ClientesPage() {
                                 </Link>
                             </div>
 
-                            <div className="border border-border rounded-lg overflow-hidden overflow-x-auto">
+                            <div className="border border-border rounded-lg overflow-x-auto">
                                 <table className="min-w-full divide-y divide-border">
                                     <thead className="bg-muted">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">ID y Documento</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Estado</th>
-                                            <th className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Fecha</th>
+                                            <th className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Estado</th>
+                                            <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Fecha</th>
                                             <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground tracking-wider">Acciones</th>
                                         </tr>
                                     </thead>
@@ -347,19 +349,25 @@ export default function ClientesPage() {
                                             </tr>
                                         ) : clientSignatures.filter(sig => sig.clientId === editingId).map((sig, idx) => (
                                             <tr key={idx} className="hover:bg-muted/50 transition-colors">
-                                                <td className="px-4 py-4 whitespace-nowrap">
-                                                    <div className="text-sm font-medium text-foreground truncate max-w-[140px] sm:max-w-[200px]" title={sig.docName}>{sig.docName}</div>
-                                                    <div className="text-xs text-muted-foreground mt-0.5">{sig.id} <span className="sm:hidden">• {sig.date}</span></div>
+                                                <td className="px-4 py-4 min-w-[200px]">
+                                                    <div className="text-sm font-medium text-foreground whitespace-normal break-words">{sig.docName}</div>
+                                                    <div className="text-xs text-muted-foreground mt-0.5">{sig.id} <span className="md:hidden">• {sig.date}</span></div>
+                                                    <div className="sm:hidden mt-2 flex flex-wrap gap-1">
+                                                        {sig.status === 'firmado' && <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700"><CheckCircle2 className="w-3 h-3 mr-1" />Firmado</span>}
+                                                        {sig.status === 'pendiente' && <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-700"><Clock className="w-3 h-3 mr-1" />Pendiente</span>}
+                                                        {sig.status === 'rechazado' && <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-red-100 text-red-700"><X className="w-3 h-3 mr-1" />Rechazado</span>}
+                                                        {sig.status === 'enviado' && <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700"><Send className="w-3 h-3 mr-1" />Enviado</span>}
+                                                    </div>
                                                 </td>
-                                                <td className="px-4 py-4 whitespace-nowrap text-sm">
+                                                <td className="hidden sm:table-cell px-4 py-4 whitespace-nowrap text-sm">
                                                     {sig.status === 'firmado' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-emerald-100 text-emerald-700"><CheckCircle2 className="w-3 h-3 mr-1" />Firmado</span>}
                                                     {sig.status === 'pendiente' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-amber-100 text-amber-700"><Clock className="w-3 h-3 mr-1" />Pendiente</span>}
                                                     {sig.status === 'rechazado' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-red-100 text-red-700"><X className="w-3 h-3 mr-1" />Rechazado</span>}
                                                     {sig.status === 'enviado' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700"><Send className="w-3 h-3 mr-1" />Enviado</span>}
                                                 </td>
-                                                <td className="hidden sm:table-cell px-4 py-4 whitespace-nowrap text-sm text-muted-foreground">{sig.date}</td>
+                                                <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-muted-foreground">{sig.date}</td>
                                                 <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <Link href={`/dashboard/firmas/${sig.id}`} className="text-accent hover:text-primary transition-colors">
+                                                    <Link href={`/dashboard/firmas/${sig.id}`} className="text-accent hover:text-primary transition-colors inline-block mt-1">
                                                         Detalles
                                                     </Link>
                                                 </td>
