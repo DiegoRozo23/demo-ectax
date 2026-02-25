@@ -11,6 +11,7 @@ export default function ClientesPage() {
     const [activeTab, setActiveTab] = useState<'info' | 'docs' | 'signatures'>('info');
 
     const router = useRouter();
+    const basePath = process.env.NODE_ENV === 'production' ? '/demo-ectax' : '';
 
     // Mock client documents linked to real PDFs in public/documents
     const [clientDocs, setClientDocs] = useState([
@@ -304,8 +305,8 @@ export default function ClientesPage() {
                                                 <td className="hidden md:table-cell px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{doc.date}</td>
                                                 <td className="px-4 py-3 text-right text-sm font-medium">
                                                     <div className="flex justify-end gap-3">
-                                                        <a href={`/documents/${doc.file}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="Ver archivo"><Eye className="w-4 h-4" /></a>
-                                                        <a href={`/documents/${doc.file}`} download={doc.file} className="text-muted-foreground hover:text-accent transition-colors" title="Descargar"><Download className="w-4 h-4" /></a>
+                                                        <a href={`${basePath}/documents/${doc.file}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="Ver archivo"><Eye className="w-4 h-4" /></a>
+                                                        <a href={`${basePath}/documents/${doc.file}`} download={doc.file} className="text-muted-foreground hover:text-accent transition-colors" title="Descargar"><Download className="w-4 h-4" /></a>
                                                         <button className="text-muted-foreground hover:text-red-500 transition-colors" title="Eliminar"><Trash2 className="w-4 h-4" /></button>
                                                     </div>
                                                 </td>

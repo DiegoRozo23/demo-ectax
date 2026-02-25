@@ -132,6 +132,8 @@ export default function CatalogoPage() {
         return matchesSearch && matchesCategory;
     });
 
+    const basePath = process.env.NODE_ENV === 'production' ? '/demo-ectax' : '';
+
     if (isAdding && role === "Admin") {
         return (
             <div className="max-w-4xl mx-auto">
@@ -266,8 +268,8 @@ export default function CatalogoPage() {
                             key={cat}
                             onClick={() => setCategory(cat)}
                             className={`flex-1 md:flex-none px-4 py-1.5 text-sm font-medium rounded-sm transition-colors ${category === cat
-                                    ? "bg-background text-foreground shadow-sm"
-                                    : "text-muted-foreground hover:text-foreground"
+                                ? "bg-background text-foreground shadow-sm"
+                                : "text-muted-foreground hover:text-foreground"
                                 }`}
                         >
                             {cat}
@@ -312,7 +314,7 @@ export default function CatalogoPage() {
                             <div className="mt-4 flex gap-3">
                                 {doc.type === "pdf" && (
                                     <a
-                                        href={`/documents/${doc.file}`}
+                                        href={`${basePath}/documents/${doc.file}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground py-2 px-4 rounded-md text-sm font-medium hover:bg-secondary/80 transition-colors"
@@ -323,7 +325,7 @@ export default function CatalogoPage() {
                                 )}
                                 {doc.type === "video" && (
                                     <button
-                                        onClick={() => setPlayingVideo(doc.file === "demo.mp4" ? `/${doc.file}` : `/documents/${doc.file}`)}
+                                        onClick={() => setPlayingVideo(doc.file === "demo.mp4" ? `${basePath}/${doc.file}` : `${basePath}/documents/${doc.file}`)}
                                         className="flex-1 flex items-center justify-center gap-2 bg-accent text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-accent/90 transition-colors"
                                     >
                                         <Eye className="w-4 h-4" />
@@ -331,7 +333,7 @@ export default function CatalogoPage() {
                                     </button>
                                 )}
                                 <a
-                                    href={`/documents/${doc.file}`}
+                                    href={`${basePath}/documents/${doc.file}`}
                                     download={doc.file.replace("Copia de ", "")}
                                     className="flex-1 flex items-center justify-center gap-2 border border-border bg-background text-foreground py-2 px-4 rounded-md text-sm font-medium hover:bg-muted transition-colors"
                                 >
