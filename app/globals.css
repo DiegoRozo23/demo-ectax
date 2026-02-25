@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+@layer base {
+  :root {
+    --background: #f8fafc; /* Very light slate/blue for background */
+    --foreground: #020617; /* Slate 950 */
+    --card: #ffffff;
+    --card-foreground: #020617;
+    --popover: #ffffff;
+    --popover-foreground: #020617;
+    
+    /* ECTAX Palette */
+    --primary: #0b1f3c; /* Dark Blue from ECTAX */
+    --primary-foreground: #ffffff;
+    --secondary: #d4f3f9; /* Light Cyan */
+    --secondary-foreground: #0b1f3c;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #135da4; /* Medium Blue */
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444; /* Red 500 */
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #135da4;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: #020617; /* Slate 950 */
+    --foreground: #f8fafc;
+    --card: #0f172a;
+    --card-foreground: #f8fafc;
+    --popover: #0f172a;
+    --popover-foreground: #f8fafc;
+    --primary: #d4f3f9; /* Light Cyan inverted */
+    --primary-foreground: #0b1f3c;
+    --secondary: #135da4; /* Medium Blue */
+    --secondary-foreground: #ffffff;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+    --destructive: #7f1d1d; /* Red 900 */
+    --destructive-foreground: #f8fafc;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #d4f3f9;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+}
