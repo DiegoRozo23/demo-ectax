@@ -158,30 +158,33 @@ export default function ClientesPage() {
                 </div>
 
                 {activeForm === 'edit' && (
-                    <div className="flex bg-muted p-1 rounded-md mb-6 w-max overflow-x-auto max-w-full">
+                    <div className="flex flex-col sm:flex-row bg-muted p-1 rounded-md mb-6 w-full gap-1">
                         <button
                             onClick={() => setActiveTab('info')}
-                            className={`px-4 py-1.5 text-sm font-medium rounded-sm transition-colors whitespace-nowrap ${activeTab === 'info' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                            className={`flex-1 px-4 py-2 sm:py-1.5 text-sm font-medium rounded-sm transition-colors text-center sm:text-left whitespace-nowrap ${activeTab === 'info' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                                 }`}
                         >
-                            <User className="w-4 h-4 inline mr-2" />
-                            Información General
+                            <User className="w-4 h-4 inline sm:mr-2 mb-1 sm:mb-0" />
+                            <span className="hidden sm:inline">Información General</span>
+                            <span className="sm:hidden block mt-1">Info General</span>
                         </button>
                         <button
                             onClick={() => setActiveTab('docs')}
-                            className={`px-4 py-1.5 text-sm font-medium rounded-sm transition-colors whitespace-nowrap ${activeTab === 'docs' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                            className={`flex-1 px-4 py-2 sm:py-1.5 text-sm font-medium rounded-sm transition-colors text-center sm:text-left whitespace-nowrap ${activeTab === 'docs' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                                 }`}
                         >
-                            <FileText className="w-4 h-4 inline mr-2" />
-                            Expediente (Documentos)
+                            <FileText className="w-4 h-4 inline sm:mr-2 mb-1 sm:mb-0" />
+                            <span className="hidden sm:inline">Expediente (Documentos)</span>
+                            <span className="sm:hidden block mt-1">Documentos</span>
                         </button>
                         <button
                             onClick={() => setActiveTab('signatures')}
-                            className={`px-4 py-1.5 text-sm font-medium rounded-sm transition-colors whitespace-nowrap ${activeTab === 'signatures' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                            className={`flex-1 px-4 py-2 sm:py-1.5 text-sm font-medium rounded-sm transition-colors text-center sm:text-left whitespace-nowrap ${activeTab === 'signatures' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                                 }`}
                         >
-                            <PenTool className="w-4 h-4 inline mr-2" />
-                            Estatus de Firmas
+                            <PenTool className="w-4 h-4 inline sm:mr-2 mb-1 sm:mb-0" />
+                            <span className="hidden sm:inline">Estatus de Firmas</span>
+                            <span className="sm:hidden block mt-1">Firmas</span>
                         </button>
                     </div>
                 )}

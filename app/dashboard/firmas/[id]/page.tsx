@@ -85,31 +85,31 @@ export default function FirmaDetallePage() {
 
     return (
         <div className="max-w-5xl mx-auto">
-            <div className="mb-6 flex items-center justify-between">
-                <div className="flex items-center gap-4">
+            <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                     <button
                         onClick={() => router.back()}
-                        className="p-2 hover:bg-muted rounded-full transition-colors"
+                        className="p-1 sm:p-2 mt-1 sm:mt-0 hover:bg-muted rounded-full transition-colors shrink-0"
                     >
                         <ArrowLeft className="h-5 w-5 text-foreground" />
                     </button>
                     <div>
-                        <h2 className="text-2xl font-bold text-foreground flex items-center gap-3">
-                            Detalle de Firma: {docId}
+                        <h2 className="text-xl sm:text-2xl font-bold text-foreground flex flex-wrap items-center gap-2 sm:gap-3">
+                            Firma: {docId}
                             {renderBadge()}
                         </h2>
-                        <p className="text-muted-foreground mt-1">
+                        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                             Visualización y trazabilidad del documento.
                         </p>
                     </div>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mt-2 sm:mt-0">
                     <button
                         onClick={() => {
                             setNotification("Documento reenviado nuevamente a " + firma.correo);
                             setTimeout(() => setNotification(null), 3000);
                         }}
-                        className="flex items-center gap-2 border border-border bg-background px-4 py-2 rounded-md text-sm font-medium hover:bg-muted transition-colors">
+                        className="flex w-full sm:w-auto justify-center items-center gap-2 border border-border bg-background px-4 py-2.5 sm:py-2 rounded-md text-sm font-medium hover:bg-muted transition-colors">
                         <Mail className="h-4 w-4" />
                         Reenviar
                     </button>
@@ -118,29 +118,29 @@ export default function FirmaDetallePage() {
                             setNotification("Descargando PDF original de " + firma.cliente);
                             setTimeout(() => setNotification(null), 3000);
                         }}
-                        className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+                        className="flex w-full sm:w-auto justify-center items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 sm:py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
                         <Download className="h-4 w-4" />
-                        Descargar Original
+                        Descargar
                     </button>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Document Preview (Mock) */}
-                <div className="lg:col-span-2 bg-card border border-border rounded-lg shadow-sm overflow-hidden flex flex-col h-[600px]">
+                <div className="lg:col-span-2 bg-card border border-border rounded-lg shadow-sm overflow-hidden flex flex-col min-h-[400px] lg:h-[600px]">
                     <div className="bg-muted p-3 border-b border-border flex justify-between items-center">
-                        <div className="flex items-center gap-2 text-sm font-medium">
-                            <FileText className="h-4 w-4 text-primary" />
-                            {firma.documento}.pdf
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-medium truncate pr-2">
+                            <FileText className="h-4 w-4 text-primary shrink-0" />
+                            <span className="truncate">{firma.documento}.pdf</span>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 shrink-0">
                             <button className="p-1.5 hover:bg-background rounded-md text-muted-foreground">
                                 <Eye className="h-4 w-4" />
                             </button>
                         </div>
                     </div>
-                    <div className="flex-1 bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center p-8">
-                        <div className="w-full h-full max-w-lg bg-white shadow-md flex flex-col items-center justify-center p-8 text-center border-t-8 border-primary">
+                    <div className="flex-1 bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center p-4 sm:p-8">
+                        <div className="w-full h-full max-w-lg bg-white shadow-md flex flex-col items-center justify-center p-6 sm:p-8 text-center border-t-8 border-primary">
                             {/* Faked Documenso View */}
                             <div className="space-y-4">
                                 <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-6">
