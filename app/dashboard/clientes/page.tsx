@@ -255,7 +255,7 @@ export default function ClientesPage() {
                         </form>
                     ) : activeTab === 'docs' ? (
                         <div className="space-y-6">
-                            <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                                 <div>
                                     <h3 className="text-lg font-medium text-foreground">Expediente Digital del Cliente</h3>
                                     <p className="text-sm text-muted-foreground">Documentos subidos y asociados a este cliente.</p>
@@ -268,13 +268,13 @@ export default function ClientesPage() {
                                 </Link>
                             </div>
 
-                            <div className="border border-border rounded-lg overflow-hidden">
+                            <div className="border border-border rounded-lg overflow-hidden overflow-x-auto">
                                 <table className="min-w-full divide-y divide-border">
                                     <thead className="bg-muted">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Archivo</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Tipo</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Fecha</th>
+                                            <th className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Tipo</th>
+                                            <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Fecha</th>
                                             <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground tracking-wider">Acciones</th>
                                         </tr>
                                     </thead>
@@ -287,12 +287,18 @@ export default function ClientesPage() {
                                             </tr>
                                         ) : clientDocs.filter(doc => doc.id === editingId).map((doc, idx) => (
                                             <tr key={idx} className="hover:bg-muted/50 transition-colors">
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-foreground flex items-center gap-2">
-                                                    <FileText className="w-4 h-4 text-primary shrink-0" />
-                                                    <span className="truncate max-w-[200px]" title={doc.displayName}>{doc.displayName}</span>
+                                                <td className="px-4 py-3 whitespace-nowrap">
+                                                    <div className="flex items-center gap-2">
+                                                        <FileText className="w-4 h-4 text-primary shrink-0" />
+                                                        <div className="flex flex-col">
+                                                            <span className="text-sm font-medium text-foreground truncate max-w-[140px] sm:max-w-[200px]" title={doc.displayName}>{doc.displayName}</span>
+                                                            <span className="text-xs text-muted-foreground sm:hidden mt-0.5">{doc.type} • {doc.date}</span>
+                                                            <span className="text-xs text-muted-foreground hidden sm:block md:hidden mt-0.5">{doc.date}</span>
+                                                        </div>
+                                                    </div>
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-muted-foreground">{doc.type}</td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-muted-foreground">{doc.date}</td>
+                                                <td className="hidden sm:table-cell px-4 py-3 whitespace-nowrap text-sm text-muted-foreground">{doc.type}</td>
+                                                <td className="hidden md:table-cell px-4 py-3 whitespace-nowrap text-sm text-muted-foreground">{doc.date}</td>
                                                 <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-3">
                                                     <a href={`/documents/${doc.file}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="Ver archivo"><Eye className="w-4 h-4" /></a>
                                                     <a href={`/documents/${doc.file}`} download={doc.file} className="text-muted-foreground hover:text-accent transition-colors" title="Descargar"><Download className="w-4 h-4" /></a>
@@ -306,7 +312,7 @@ export default function ClientesPage() {
                         </div>
                     ) : (
                         <div className="space-y-6">
-                            <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                                 <div>
                                     <h3 className="text-lg font-medium text-foreground">Firmas Documenso</h3>
                                     <p className="text-sm text-muted-foreground">Monitoreo de documentos enviados a este cliente.</p>
@@ -319,13 +325,13 @@ export default function ClientesPage() {
                                 </Link>
                             </div>
 
-                            <div className="border border-border rounded-lg overflow-hidden">
+                            <div className="border border-border rounded-lg overflow-hidden overflow-x-auto">
                                 <table className="min-w-full divide-y divide-border">
                                     <thead className="bg-muted">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">ID y Documento</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Estado</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Fecha</th>
+                                            <th className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-muted-foreground tracking-wider">Fecha</th>
                                             <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground tracking-wider">Acciones</th>
                                         </tr>
                                     </thead>
@@ -339,8 +345,8 @@ export default function ClientesPage() {
                                         ) : clientSignatures.filter(sig => sig.clientId === editingId).map((sig, idx) => (
                                             <tr key={idx} className="hover:bg-muted/50 transition-colors">
                                                 <td className="px-4 py-4 whitespace-nowrap">
-                                                    <div className="text-sm font-medium text-foreground">{sig.docName}</div>
-                                                    <div className="text-xs text-muted-foreground">{sig.id}</div>
+                                                    <div className="text-sm font-medium text-foreground truncate max-w-[140px] sm:max-w-[200px]" title={sig.docName}>{sig.docName}</div>
+                                                    <div className="text-xs text-muted-foreground mt-0.5">{sig.id} <span className="sm:hidden">• {sig.date}</span></div>
                                                 </td>
                                                 <td className="px-4 py-4 whitespace-nowrap text-sm">
                                                     {sig.status === 'firmado' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-emerald-100 text-emerald-700"><CheckCircle2 className="w-3 h-3 mr-1" />Firmado</span>}
@@ -348,7 +354,7 @@ export default function ClientesPage() {
                                                     {sig.status === 'rechazado' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-red-100 text-red-700"><X className="w-3 h-3 mr-1" />Rechazado</span>}
                                                     {sig.status === 'enviado' && <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700"><Send className="w-3 h-3 mr-1" />Enviado</span>}
                                                 </td>
-                                                <td className="px-4 py-4 whitespace-nowrap text-sm text-muted-foreground">{sig.date}</td>
+                                                <td className="hidden sm:table-cell px-4 py-4 whitespace-nowrap text-sm text-muted-foreground">{sig.date}</td>
                                                 <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <Link href={`/dashboard/firmas/${sig.id}`} className="text-accent hover:text-primary transition-colors">
                                                         Detalles
@@ -409,10 +415,10 @@ export default function ClientesPage() {
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     Cliente / Empresa
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                <th scope="col" className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     Contacto
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     Estado
                                 </th>
                                 <th scope="col" className="relative px-6 py-3">
@@ -429,7 +435,7 @@ export default function ClientesPage() {
                                 </tr>
                             ) : filteredClientes.map((cliente) => (
                                 <tr key={cliente.id} className="hover:bg-muted/50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-4">
                                         <div
                                             className="flex items-center cursor-pointer group"
                                             onClick={() => openEditForm(cliente)}
@@ -440,14 +446,34 @@ export default function ClientesPage() {
                                             <div className="ml-4">
                                                 <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{cliente.nombre}</div>
                                                 <div className="text-xs text-muted-foreground font-mono mt-0.5">{cliente.rfc}</div>
+                                                <div className="sm:hidden mt-2 text-xs">
+                                                    <div className="text-muted-foreground">{cliente.correo}</div>
+                                                    <div className="text-muted-foreground mt-0.5">{cliente.telefono}</div>
+                                                    <div className="mt-1.5">
+                                                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${cliente.estado === 'Activo'
+                                                            ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+                                                            : 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
+                                                            }`}>
+                                                            {cliente.estado}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="hidden sm:block md:hidden mt-1.5">
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${cliente.estado === 'Activo'
+                                                        ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+                                                        : 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
+                                                        }`}>
+                                                        {cliente.estado}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
                                         <div className="text-sm text-foreground">{cliente.correo}</div>
                                         <div className="text-sm text-muted-foreground">{cliente.telefono}</div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${cliente.estado === 'Activo'
                                             ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
                                             : 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'

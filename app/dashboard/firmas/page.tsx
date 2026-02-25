@@ -369,13 +369,13 @@ function FirmasContent() {
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     ID y Documento
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                <th scope="col" className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     Cliente
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     Estado de Firma
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                <th scope="col" className="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                                     Fecha de Envío
                                 </th>
                                 <th scope="col" className="relative px-6 py-3">
@@ -392,17 +392,31 @@ function FirmasContent() {
                                 </tr>
                             ) : filteredFirmas.map((firma) => (
                                 <tr key={firma.id} className="hover:bg-muted/50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-foreground">{firma.documento}</div>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm font-medium text-foreground whitespace-normal">{firma.documento}</div>
                                         <div className="text-sm text-muted-foreground">{firma.id}</div>
+                                        <div className="sm:hidden mt-2 text-xs">
+                                            <div className="text-muted-foreground">{firma.cliente}</div>
+                                            <div className="mt-1.5 flex items-center flex-wrap gap-2">
+                                                {getStatusBadge(firma.estado)} <span className="text-muted-foreground">• {firma.fechaEnviado}</span>
+                                            </div>
+                                        </div>
+                                        <div className="hidden sm:block md:hidden mt-2 text-xs">
+                                            <div className="mt-1 flex items-center gap-2">
+                                                {getStatusBadge(firma.estado)} <span className="text-muted-foreground">• {firma.fechaEnviado}</span>
+                                            </div>
+                                        </div>
+                                        <div className="hidden md:block lg:hidden mt-1.5 text-xs text-muted-foreground">
+                                            Envío: {firma.fechaEnviado}
+                                        </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
                                         <div className="text-sm text-foreground">{firma.cliente}</div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                                         {getStatusBadge(firma.estado)}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
                                         <div className="text-sm text-foreground">{firma.fechaEnviado}</div>
                                         <div className="text-xs text-muted-foreground">Act.: {firma.fechaActualizacion}</div>
                                     </td>
