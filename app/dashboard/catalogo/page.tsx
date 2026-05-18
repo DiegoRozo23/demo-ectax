@@ -3,6 +3,7 @@
 import { FileText, Download, Eye, Video, Plus, UploadCloud, X, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useRole } from "../layout";
+import PdfCarousel from "../../components/PdfCarousel";
 
 export default function CatalogoPage() {
     const { role } = useRole();
@@ -11,6 +12,7 @@ export default function CatalogoPage() {
     const [uploadedFile, setUploadedFile] = useState<string | null>(null);
     const [notification, setNotification] = useState<string | null>(null);
     const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+    const [playingPdf, setPlayingPdf] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [category, setCategory] = useState("Todos");
 
@@ -313,15 +315,13 @@ export default function CatalogoPage() {
 
                             <div className="mt-4 flex gap-3">
                                 {doc.type === "pdf" && (
-                                    <a
-                                        href={`${basePath}/documents/${doc.file}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                    <button
+                                        onClick={() => setPlayingPdf(`${basePath}/documents/${doc.file}`)}
                                         className="flex-1 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground py-2 px-4 rounded-md text-sm font-medium hover:bg-secondary/80 transition-colors"
                                     >
                                         <Eye className="w-4 h-4" />
                                         Ver
-                                    </a>
+                                    </button>
                                 )}
                                 {doc.type === "video" && (
                                     <button
@@ -369,6 +369,22 @@ export default function CatalogoPage() {
                             autoPlay
                             className="w-full h-auto max-h-[85vh] object-contain outline-none"
                         />
+                    </div>
+                </div>
+            )}
+
+            {playingPdf && (
+                <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in">
+                    <div className="absolute top-4 right-4 z-50">
+                        <button
+                            onClick={() => setPlayingPdf(null)}
+                            className="bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors backdrop-blur-md shadow-lg"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                    </div>
+                    <div className="w-full h-full flex items-center justify-center m-0 p-0">
+                        <PdfCarousel pdfUrl={playingPdf} />
                     </div>
                 </div>
             )}
