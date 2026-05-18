@@ -16,17 +16,37 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 export default function PdfCarousel({ pdfUrl }: { pdfUrl: string }) {
   const [numPages, setNumPages] = useState<number>(0);
-  const [containerHeight, setContainerHeight] = useState(600);
+  const [pdfConstraint, setPdfConstraint] = useState<{ width?: number, height?: number }>({ height: 600 });
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Ajustar el tamaño del PDF para que ocupe el mayor espacio posible
+  // Ajustar el tamaño del PDF dinámicamente según la proporción de la pantalla
   useEffect(() => {
     const updateSize = () => {
-      if (containerRef.current) {
-        // Usamos prácticamente el 100% del alto disponible (95% para un pequeño respiro)
-        const availableHeight = window.innerHeight;
-        setContainerHeight(Math.max(availableHeight * 0.95, 400));
+      if (!containerRef.current) return;
+      
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      
+      // Margen responsivo: menos margen lateral en móviles
+      const marginX = w < 640 ? 0.95 : 0.85; 
+      const marginY = w < 640 ? 0.85 : 0.90;
+      
+      const availableW = w * marginX;
+      const availableH = h * marginY;
+      
+      // Proporción aproximada de una presentación estándar (16:9 = ~1.77)
+      const screenRatio = availableW / availableH;
+      const estimatedPdfRatio = 16 / 9;
+
+      if (screenRatio < estimatedPdfRatio) {
+        // Pantalla más estrecha que la presentación (ej. celular vertical)
+        // Restringimos por ANCHO
+        setPdfConstraint({ width: Math.max(availableW, 250) });
+      } else {
+        // Pantalla más ancha (ej. laptop/desktop)
+        // Restringimos por ALTO
+        setPdfConstraint({ height: Math.max(availableH, 300) });
       }
     };
     updateSize();
@@ -63,17 +83,17 @@ export default function PdfCarousel({ pdfUrl }: { pdfUrl: string }) {
             {/* Flecha Izquierda */}
             <button 
               onClick={() => swiperInstance?.slidePrev()}
-              className="absolute left-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 hover:bg-white/20 text-white p-4 rounded-full backdrop-blur-md shadow-2xl transition-all"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-[60] bg-black/30 hover:bg-black/50 sm:bg-white/10 sm:hover:bg-white/20 text-white p-2 sm:p-4 rounded-full backdrop-blur-md shadow-2xl transition-all"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 sm:w-12 sm:h-12"><path d="m15 18-6-6 6-6"/></svg>
             </button>
 
             {/* Flecha Derecha */}
             <button 
               onClick={() => swiperInstance?.slideNext()}
-              className="absolute right-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 hover:bg-white/20 text-white p-4 rounded-full backdrop-blur-md shadow-2xl transition-all"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-[60] bg-black/30 hover:bg-black/50 sm:bg-white/10 sm:hover:bg-white/20 text-white p-2 sm:p-4 rounded-full backdrop-blur-md shadow-2xl transition-all"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 sm:w-12 sm:h-12"><path d="m9 18 6-6-6-6"/></svg>
             </button>
 
             <Swiper
@@ -100,7 +120,8 @@ export default function PdfCarousel({ pdfUrl }: { pdfUrl: string }) {
                 <div className="shadow-[0_20px_50px_rgba(0,0,0,0.8)] bg-white rounded-lg overflow-hidden">
                   <Page
                     pageNumber={index + 1}
-                    height={containerHeight}
+                    width={pdfConstraint.width}
+                    height={pdfConstraint.height}
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
                     className="select-none pointer-events-none"

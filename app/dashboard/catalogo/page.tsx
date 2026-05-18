@@ -139,23 +139,23 @@ export default function CatalogoPage() {
     if (isAdding && role === "Admin") {
         return (
             <div className="max-w-4xl mx-auto">
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
-                        <h2 className="text-2xl font-bold text-foreground">Subir Nuevo Soporte Comercial</h2>
-                        <p className="text-muted-foreground mt-1">
+                        <h2 className="text-xl sm:text-2xl font-bold text-foreground">Subir Nuevo Soporte Comercial</h2>
+                        <p className="text-muted-foreground mt-1 text-sm sm:text-base">
                             Añade presentaciones, PDFs, o videos formativos al catálogo comercial de la red de asesores.
                         </p>
                     </div>
                     <button
                         onClick={() => setIsAdding(false)}
-                        className="border border-border bg-background px-4 py-2 rounded-md text-sm font-medium hover:bg-muted transition-colors">
+                        className="border border-border bg-background px-4 py-2 rounded-md text-sm font-medium hover:bg-muted transition-colors shrink-0 self-start sm:self-auto">
                         Cancelar
                     </button>
                 </div>
 
                 <div className="bg-card border border-border shadow-sm rounded-lg p-6">
-                    <form className="space-y-6" onSubmit={handleAddSupport}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form className="space-y-5 sm:space-y-6" onSubmit={handleAddSupport}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-foreground mb-1">
@@ -263,13 +263,13 @@ export default function CatalogoPage() {
             </div>
 
             {/* Filtros y Buscador */}
-            <div className="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-lg border border-border shadow-sm">
-                <div className="flex bg-muted p-1 rounded-md w-full md:w-auto">
+            <div className="mb-6 flex flex-col gap-3 bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
+                <div className="flex bg-muted p-1 rounded-md w-full">
                     {["Todos", "Videos", "Documentos"].map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setCategory(cat)}
-                            className={`flex-1 md:flex-none px-4 py-1.5 text-sm font-medium rounded-sm transition-colors ${category === cat
+                            className={`flex-1 px-2 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-sm transition-colors ${category === cat
                                 ? "bg-background text-foreground shadow-sm"
                                 : "text-muted-foreground hover:text-foreground"
                                 }`}
@@ -279,7 +279,7 @@ export default function CatalogoPage() {
                     ))}
                 </div>
 
-                <div className="w-full md:w-72">
+                <div className="w-full">
                     <input
                         type="text"
                         placeholder="Buscar por título o descripción..."
@@ -313,32 +313,32 @@ export default function CatalogoPage() {
                                 {doc.description}
                             </p>
 
-                            <div className="mt-4 flex gap-3">
+                            <div className="mt-4 flex flex-col xs:flex-row gap-2">
                                 {doc.type === "pdf" && (
                                     <button
                                         onClick={() => setPlayingPdf(`${basePath}/documents/${doc.file}`)}
-                                        className="flex-1 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground py-2 px-4 rounded-md text-sm font-medium hover:bg-secondary/80 transition-colors"
+                                        className="flex-1 flex items-center justify-center gap-2 bg-secondary text-secondary-foreground py-2 px-3 rounded-md text-sm font-medium hover:bg-secondary/80 transition-colors"
                                     >
-                                        <Eye className="w-4 h-4" />
-                                        Ver
+                                        <Eye className="w-4 h-4 shrink-0" />
+                                        <span>Ver</span>
                                     </button>
                                 )}
                                 {doc.type === "video" && (
                                     <button
                                         onClick={() => setPlayingVideo(doc.file === "demo.mp4" ? `${basePath}/${doc.file}` : `${basePath}/documents/${doc.file}`)}
-                                        className="flex-1 flex items-center justify-center gap-2 bg-accent text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-accent/90 transition-colors"
+                                        className="flex-1 flex items-center justify-center gap-2 bg-accent text-white py-2 px-3 rounded-md text-sm font-medium hover:bg-accent/90 transition-colors"
                                     >
-                                        <Eye className="w-4 h-4" />
-                                        Ver Video
+                                        <Eye className="w-4 h-4 shrink-0" />
+                                        <span>Ver Video</span>
                                     </button>
                                 )}
                                 <a
                                     href={`${basePath}/documents/${doc.file}`}
                                     download={doc.file.replace("Copia de ", "")}
-                                    className="flex-1 flex items-center justify-center gap-2 border border-border bg-background text-foreground py-2 px-4 rounded-md text-sm font-medium hover:bg-muted transition-colors"
+                                    className="flex-1 flex items-center justify-center gap-2 border border-border bg-background text-foreground py-2 px-3 rounded-md text-sm font-medium hover:bg-muted transition-colors"
                                 >
-                                    <Download className="w-4 h-4" />
-                                    Descargar
+                                    <Download className="w-4 h-4 shrink-0" />
+                                    <span>Descargar</span>
                                 </a>
                             </div>
                         </div>
@@ -375,15 +375,15 @@ export default function CatalogoPage() {
 
             {playingPdf && (
                 <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in">
-                    <div className="absolute top-4 right-4 z-50">
+                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50">
                         <button
                             onClick={() => setPlayingPdf(null)}
-                            className="bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors backdrop-blur-md shadow-lg"
+                            className="bg-white/10 hover:bg-white/20 text-white rounded-full p-2 sm:p-3 transition-colors backdrop-blur-md shadow-lg"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 h-5 sm:w-6 sm:h-6" />
                         </button>
                     </div>
-                    <div className="w-full h-full flex items-center justify-center m-0 p-0">
+                    <div className="w-full h-full flex items-center justify-center">
                         <PdfCarousel pdfUrl={playingPdf} />
                     </div>
                 </div>
